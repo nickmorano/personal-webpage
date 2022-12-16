@@ -1,29 +1,27 @@
-import React, { useState } from "react";
-import axios from "axios";
+import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import Navbar from './Navbar';
+import Home from './Home';
+import Create from './Create';
+import BlogDetails from './BlogDetails';
+import NotFound from './NotFound';
 
-const onClickButton = async () => {
-  const response = await axios.get(
-    `${process.env.REACT_APP_BACKEND_ROUTE}/api`
-  );
-  return response;
-};
 
-const App = () => {
-  const [result, setResult] = useState(null);
-
+function App() {
   return (
-    <div>
-      <button
-        onClick={async () => {
-          const res = await onClickButton();
-          setResult(res?.data.data);
-        }}
-      >
-        Test Me
-      </button>
-      <div>{result && <span>{result}</span>}</div>
-    </div>
+    <Router>
+      <div className="App">
+        <Navbar />
+        <div className="content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/create" element={<Create />} />
+            <Route path="/blogs/:id" element={<BlogDetails />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
   );
-};
+}
 
 export default App;
