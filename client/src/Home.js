@@ -1,14 +1,13 @@
-import BlogList from './BlogList';
 import useFetch from './useFetch';
 
 const Home = () => {
-  const { data: blogs, isPending, error } = useFetch('http://localhost:5002/api/')
+  const { data: products, isPending, error } = useFetch('http://localhost:5002/api/')
 
   return (
     <div className="home">
       {error && <div>{error}</div>}
       {isPending && <div>Loading...</div>}
-      {blogs && <BlogList blogs={blogs} title="All Blogs" />}
+      {products && <ProductList products={products} title="All Products" />}
     </div>
   );
 }

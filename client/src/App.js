@@ -1,27 +1,115 @@
+import { useState, useEffect } from 'react';
+import { CssBaseline } from '@mui/material';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import Navbar from './Navbar';
-import Home from './Home';
-import Create from './Create';
-import BlogDetails from './BlogDetails';
-import NotFound from './NotFound';
 
+import { Products, Navbar } from './components';
 
-function App() {
+const App = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState({});
+  const [order, setOrder] = useState({});
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // const fetchProducts = async () => {
+  //   // const { data } = await commerce.products.list();
+
+  //   setProducts(data);
+  // };
+  // const { data: products, isPending, error } = useFetch('http://localhost:5002/api/')
+
+  // const fetchCart = async () => {
+  //   setCart(await commerce.cart.retrieve());
+  // };
+
+  // const handleAddToCart = async (productId, quantity) => {
+  //   const item = await commerce.cart.add(productId, quantity);
+
+  //   setCart(item.cart);
+  // };
+
+  // const handleUpdateCartQty = async (lineItemId, quantity) => {
+  //   const response = await commerce.cart.update(lineItemId, { quantity });
+
+  //   setCart(response.cart);
+  // };
+
+  // const handleRemoveFromCart = async (lineItemId) => {
+  //   const response = await commerce.cart.remove(lineItemId);
+
+  //   setCart(response.cart);
+  // };
+
+  // const handleEmptyCart = async () => {
+  //   const response = await commerce.cart.empty();
+
+  //   setCart(response.cart);
+  // };
+
+  // const refreshCart = async () => {
+  //   const newCart = await commerce.cart.refresh();
+
+  //   setCart(newCart);
+  // };
+
+  // const handleCaptureCheckout = async (checkoutTokenId, newOrder) => {
+  //   try {
+  //     const incomingOrder = await commerce.checkout.capture(checkoutTokenId, newOrder);
+
+  //     setOrder(incomingOrder);
+
+  //     refreshCart();
+  //   } catch (error) {
+  //     setErrorMessage(error.data.error.message);
+  //   }
+  // };
+
+  useEffect(() => {
+    // fetchProducts();
+    fetch('http://localhost:5002/api/products')
+      .then(res => {
+        if(!res.ok) {
+          throw Error('could not fetch the data for that resource')
+        }
+        return res.json();
+      })
+      .then(data => {
+        setProducts(data)
+      })
+    // fetchCart();
+    fetch('http://localhost:5002/api/cart')
+      .then(res => {
+        if(!res.ok) {
+          throw Error('could not fetch the data for that resource')
+        }
+        return res.json();
+      })
+      .then(data => {
+        setProducts(data)
+      })
+  }, []);
+
+  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+
   return (
     <Router>
-      <div className="App">
-        <Navbar />
-        <div className="content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/create" element={<Create />} />
-            <Route path="/blogs/:id" element={<BlogDetails />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
+      <div style={{ display: 'flex' }}>
+        <CssBaseline />
+        <Navbar totalItems={cart.total_items} handleDrawerToggle={handleDrawerToggle} />
+        <Routes>
+          <Route path="/"  element={<Products products={products} handleUpdateCartQty />}>
+
+          </Route>
+          {/* <Route exact path="/cart">
+            <Cart cart={cart} onUpdateCartQty={handleUpdateCartQty} onRemoveFromCart={handleRemoveFromCart} onEmptyCart={handleEmptyCart} />
+          </Route>
+          <Route path="/checkout" exact>
+            <Checkout cart={cart} order={order} onCaptureCheckout={handleCaptureCheckout} error={errorMessage} />
+          </Route> */}
+        </Routes>
       </div>
     </Router>
   );
-}
+};
 
 export default App;
