@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import { CssBaseline } from '@mui/material';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
-import { Products, Navbar } from './components';
+import { Products, Navbar, Cart } from './components';
 
 const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState({});
+  const [cart, setCart] = useState([]);
   const [order, setOrder] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -22,29 +22,42 @@ const App = () => {
   //   setCart(await commerce.cart.retrieve());
   // };
 
-  // const handleAddToCart = async (productId, quantity) => {
-  //   const item = await commerce.cart.add(productId, quantity);
+  const handleAddToCart = async (productId, quantity) => {
+    let product = cart.find(x => x.id === productId)
+    let newCart = []
 
-  //   setCart(item.cart);
-  // };
+    if (product) {
+      newCart = cart.filter(x => x.id !== productId)
+      product.quantity++
+    } else {
+      newCart = cart
+      product = products.find(x => x.id === productId)
+      product.quantity = 1
+    }
 
-  // const handleUpdateCartQty = async (lineItemId, quantity) => {
-  //   const response = await commerce.cart.update(lineItemId, { quantity });
+    newCart.push(product)
 
-  //   setCart(response.cart);
-  // };
+    setCart(newCart);
+    console.log(cart)
+  };
 
-  // const handleRemoveFromCart = async (lineItemId) => {
-  //   const response = await commerce.cart.remove(lineItemId);
+  const handleUpdateCartQty = async (lineItemId, quantity) => {
+    // const response = await commerce.cart.update(lineItemId, { quantity });
+    console.log("Update Quantity")
+    // setCart(response.cart);
+  };
 
-  //   setCart(response.cart);
-  // };
+  const handleRemoveFromCart = async (lineItemId) => {
+    // const response = await commerce.cart.remove(lineItemId);
+    console.log("remove from cart")
+    // setCart([]);
+  };
 
-  // const handleEmptyCart = async () => {
-  //   const response = await commerce.cart.empty();
-
-  //   setCart(response.cart);
-  // };
+  const handleEmptyCart = async () => {
+    // const response = await commerce.cart.empty();
+    console.log("cart empty")
+    // setCart([]);
+  };
 
   // const refreshCart = async () => {
   //   const newCart = await commerce.cart.refresh();
@@ -85,7 +98,7 @@ const App = () => {
         return res.json();
       })
       .then(data => {
-        setProducts(data)
+        setCart(data)
       })
   }, []);
 
@@ -95,15 +108,11 @@ const App = () => {
     <Router>
       <div style={{ display: 'flex' }}>
         <CssBaseline />
-        <Navbar totalItems={cart.total_items} handleDrawerToggle={handleDrawerToggle} />
+        <Navbar totalItems={cart.length} handleDrawerToggle={handleDrawerToggle} />
         <Routes>
-          <Route path="/"  element={<Products products={products} handleUpdateCartQty />}>
-
-          </Route>
-          {/* <Route exact path="/cart">
-            <Cart cart={cart} onUpdateCartQty={handleUpdateCartQty} onRemoveFromCart={handleRemoveFromCart} onEmptyCart={handleEmptyCart} />
-          </Route>
-          <Route path="/checkout" exact>
+          <Route path="/"  element={<Products products={products} onAddToCart={handleAddToCart} handleUpdateCartQty />} />
+          <Route path="/cart" element={<Cart cart={cart} onUpdateCartQty={handleUpdateCartQty} onRemoveFromCart={handleRemoveFromCart} onEmptyCart={handleEmptyCart} />} />
+          {/* <Route path="/checkout" exact>
             <Checkout cart={cart} order={order} onCaptureCheckout={handleCaptureCheckout} error={errorMessage} />
           </Route> */}
         </Routes>

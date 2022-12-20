@@ -6,8 +6,7 @@ const Product = ({ product, onAddToCart }) => {
 
   return (
     <Card className="root">
-      <CardMedia className="media" title={product.name} />
-      {/* <CardMedia className="media" image={product.media.source} title={product.name} /> */}
+      <CardMedia className="media" style={{height: 0, paddingTop: '50%'}} image={require('../../../../src/assets/product_images/' + product.image_location)} title={product.name} />
       <CardContent>
         <div className="cardContent">
           <Typography gutterBottom variant="h5" component="h2">
