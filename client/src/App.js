@@ -107,7 +107,6 @@ const App = () => {
   return (
     <Router>
       <div style={{ display: 'flex' }}>
-        <CssBaseline />
         <Navbar totalItems={cart.length} handleDrawerToggle={handleDrawerToggle} />
         <Routes>
           <Route path="/"  element={<Products products={products} onAddToCart={handleAddToCart} handleUpdateCartQty />} />
