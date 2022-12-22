@@ -6,29 +6,37 @@ import { css } from '@emotion/react';
 const Product = ({ product, onAddToCart }) => {
   const handleAddToCart = () => onAddToCart(product.id, 1);
 
-  const description = css({
-  })
+  const image = css({
+    maxHeight: '250 px',
+    maxWidth: '250 px'
+  });
+
+  const card = css({
+    maxHeight: '250 px',
+    maxWidth: '250 px'
+  });
+
+  const content = css({
+    fontFamily: "Geograph"
+  });
 
   return (
-    <Card className="root">
-      <CardMedia className="media" style={{height: 0, paddingTop: '75%'}} image={require('../../../../src/assets/product_images/' + product.image_location)} title={product.name} />
-      <CardContent>
-        <div className="cardContent">
-          <Typography gutterBottom variant="h5" component="h2">
-            {product.name}
-          </Typography>
-          <Typography gutterBottom variant="h5" component="h2" css={description}>
-            ${product.price}
-          </Typography>
-        </div>
-        <Typography dangerouslySetInnerHTML={{ __html: product.description }} variant="body2" component="p" />
+    <Card css={card}>
+      <CardMedia component="img" css={image} image={require('../../../../src/assets/product_images/' + product.image_location)} title={product.name} />
+      <CardContent css={content}>
+        <Typography gutterBottom variant="h5" component="h2">
+          {product.name}
+        </Typography>
+        <Typography gutterBottom component="h2">
+          {product.brand}
+        </Typography>
+        <Typography gutterBottom component="h2">
+          {product.price} SEK
+            <IconButton aria-label="Add to Cart" onClick={handleAddToCart}>
+              <AddShoppingCart />
+            </IconButton>
+        </Typography>
       </CardContent>
-      <CardActions disableSpacing className="cardActions">
-        <IconButton aria-label="Add to Cart" onClick={handleAddToCart}>
-          <AddShoppingCart />
-        </IconButton>
-      </CardActions>
-
     </Card>
   );
 };
