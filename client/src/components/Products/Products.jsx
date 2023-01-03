@@ -1,24 +1,29 @@
 /** @jsxImportSource @emotion/react */
 import Grid from '@mui/material/Grid';
 import Product from './Product/Product';
-import {css} from '@emotion/react';
+import Navbar from '../Navbar/Navbar';
+import { css } from '@emotion/react';
+import { useState } from 'react'
 
-const Products = ({ products, onAddToCart }) => {
+const Products = ({ cart, products, onAddToCart }) => {
+  const [cartQuantity, setCartQuantity] = useState(cart.length)
 
   if (!products.length) return <p>Loading...</p>;
 
-  const navbar = css({
-    paddingTop: '200px',
-  })
+  const handleDrawerToggle = () => console.log("hello")
 
+  const handleAddToCart = async (productId, quantity) => {
+    setCartQuantity(cartQuantity + 1)
+    onAddToCart(productId, quantity)
+  }
 
   return (
-    <main className="content">
-      <div css={navbar} />
-      <Grid container justify="center" spacing={4}>
+    <main>
+      <Navbar totalItems={cartQuantity} handleDrawerToggle={handleDrawerToggle} />
+      <Grid container justify="center" spacing={4} sx={{mt: "5px"}}>
         {products.map((product) => (
-          <Grid key={product.id} item xs={12} sm={6} md={4} lg={2}>
-            <Product product={product} onAddToCart={onAddToCart} />
+          <Grid key={product.id} item xs={6} sm={6} md={4} lg={4}>
+            <Product product={product} onAddToCart={handleAddToCart} />
           </Grid>
         ))}
       </Grid>
