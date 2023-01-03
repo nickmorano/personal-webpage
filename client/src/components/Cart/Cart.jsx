@@ -52,13 +52,6 @@ const Cart = ({ cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart }) => {
 
   return (
     <div>
-      <AppBar color='inherit' position='sticky'>
-        <Toolbar css={topNav}>
-          <Typography component={Link} to="/" variant="h6" className="title" color="inherit" margin="auto">
-            <img src={logo} alt="nav" height="100px" className="image" />
-          </Typography>
-        </Toolbar>
-      </AppBar>
       <IconButton component={Link} to="/" size="small" color="inherit" >
         <ArrowBack />
         <Typography sx={{ fontSize: "18px", fontWeight: "200", py: "20px" }}>Continue Shopping</Typography>

@@ -4,7 +4,7 @@ import { BorderBottom, ShoppingCartOutlined } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { css } from '@emotion/react';
 
-const SubNav = ({ totalItems }) => {
+const SubNav = () => {
 
   const subNav = css({
     justifyContent: "space-between",

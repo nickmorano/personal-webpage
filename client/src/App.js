@@ -44,6 +44,7 @@ const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
+  const [cartQuantity, setCartQuantity] = useState(cart.length)
   const [order, setOrder] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -61,6 +62,7 @@ const App = () => {
   };
 
   const handleAddToCart = async (productId, quantity) => {
+    setCartQuantity(cartQuantity + 1)
     let product = cart.find(x => x.id === productId)
     let newCart = []
 
@@ -125,7 +127,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Router>
         <div>
-          {/* <Navbar totalItems={cart.length} handleDrawerToggle={handleDrawerToggle}  /> */}
+          <Navbar totalItems={cartQuantity} handleDrawerToggle={handleDrawerToggle} />
           <Routes>
             <Route path="/"  element={<Products cart={cart} products={products} onAddToCart={handleAddToCart} handleUpdateCartQty />} />
             <Route path="/cart" element={<Cart cart={cart} onUpdateCartQty={handleUpdateCartQty} onRemoveFromCart={handleRemoveFromCart} onEmptyCart={handleEmptyCart} />} />
