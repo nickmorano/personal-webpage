@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { AppBar, Toolbar, Badge, MenuItem, Menu, Typography, IconButton, Stack, Button } from '@mui/material';
+import { AppBar, Stack } from '@mui/material';
 import { useLocation } from "react-router-dom"
 
 import TopNav from './TopNav'
@@ -19,11 +19,11 @@ const Navbar = ({ totalItems }) => {
   });
 
   return (
-    <AppBar color='inherit' position='sticky'>
-        <Stack>
-          <TopNav totalItems={totalItems} fullView={fullNavView} />
-          { fullNavView ? <SubNav /> : null }
-        </Stack>
+    <AppBar position='relative' color='inherit' elevation={0}>
+      <Stack>
+        <TopNav totalItems={totalItems} fullView={fullNavView} />
+        { fullNavView ? <SubNav /> : null }
+      </Stack>
     </AppBar>
   );
 }

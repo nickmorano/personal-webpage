@@ -1,12 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import { createTheme, ThemeProvider } from '@mui/material';
-import { black } from '@mui/material/colors'
-
+import { createTheme, ThemeProvider, CssBaseline } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { CssBaseline } from '@mui/material';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 import { Products, Navbar, Cart } from './components';
+import { css } from '@emotion/react';
+import { Calculate } from '@mui/icons-material';
 
 const App = () => {
 
@@ -44,7 +43,7 @@ const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
-  const [cartQuantity, setCartQuantity] = useState(cart.length)
+  const [cartQuantity, setCartQuantity] = useState(null)
   const [order, setOrder] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -62,7 +61,6 @@ const App = () => {
   };
 
   const handleAddToCart = async (productId, quantity) => {
-    setCartQuantity(cartQuantity + 1)
     let product = cart.find(x => x.id === productId)
     let newCart = []
 
@@ -78,8 +76,19 @@ const App = () => {
     newCart.push(product)
 
     setCart(newCart);
-    console.log(cart)
+    updateCartQuantity(newCart);
   };
+
+  const updateCartQuantity = (newCart) => {
+    let newQuantity = calculateCartQuantity(newCart);
+    setCartQuantity(newQuantity);
+  }
+
+  const calculateCartQuantity = (p) => {
+    return p.reduce(
+      (acc, x) => acc + x.quantity,
+      0);
+  }
 
   const handleUpdateCartQty = async (lineItemId, quantity) => {
     // const response = await commerce.cart.update(lineItemId, { quantity });
@@ -94,9 +103,8 @@ const App = () => {
   };
 
   const handleEmptyCart = async () => {
-    // const response = await commerce.cart.empty();
-    console.log("cart empty")
-    // setCart([]);
+    setCart([]);
+    setCartQuantity(null);
   };
 
   // const refreshCart = async () => {
@@ -119,15 +127,33 @@ const App = () => {
 
   useEffect(() => {
     fetchProducts();
+
+    const localStorage = window.localStorage.getItem('CART');
+    const storedCart = JSON.parse(localStorage).carty
+
+    if(storedCart.length > 0) {
+      setCart(storedCart)
+      updateCartQuantity(storedCart);
+    }
   }, []);
+
+  useEffect(() => {
+    let cartObj = {carty: cart}
+    window.localStorage.setItem('CART', JSON.stringify(cartObj))
+  }, [cartQuantity]);
 
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
+  const mainCss = css({
+    padding: "0px 8px",
+  })
+
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Router>
-        <div>
-          <Navbar totalItems={cartQuantity} handleDrawerToggle={handleDrawerToggle} />
+        <Navbar totalItems={cartQuantity} handleDrawerToggle={handleDrawerToggle} />
+        <main css={mainCss}>
           <Routes>
             <Route path="/"  element={<Products cart={cart} products={products} onAddToCart={handleAddToCart} handleUpdateCartQty />} />
             <Route path="/cart" element={<Cart cart={cart} onUpdateCartQty={handleUpdateCartQty} onRemoveFromCart={handleRemoveFromCart} onEmptyCart={handleEmptyCart} />} />
@@ -135,7 +161,7 @@ const App = () => {
               <Checkout cart={cart} order={order} onCaptureCheckout={handleCaptureCheckout} error={errorMessage} />
             </Route> */}
           </Routes>
-        </div>
+        </main>
       </Router>
     </ThemeProvider>
   );

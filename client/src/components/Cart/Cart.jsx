@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Container, Box, Badge, Typography, Button, IconButton, Grid } from '@mui/material';
+import { Container, Typography, Button, IconButton, Grid } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { css } from '@emotion/react';
@@ -6,27 +6,14 @@ import { css } from '@emotion/react';
 import CartItem from './CartItem/CartItem';
 import { Navbar } from '../../components';
 
-import logo from '../../assets/rare-logo.png'
-
 const Cart = ({ cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart }) => {
   const handleEmptyCart = () => onEmptyCart();
 
   console.log(cart)
 
-  const handleDrawerToggle = () => {
-    console.log("hello")
-  }
-
-  const topNav = css({
-    borderBottom: "solid 1px",
-    marginLeft: "auto",
-    marginRight: "auto"
-  })
-
-
   const renderEmptyCart = () => (
-    <Typography variant="subtitle1">You have no items in your shopping cart,
-      <Link className="link" to="/">start adding some</Link>!
+    <Typography variant="subtitle1">
+      You have no items in your shopping cart, <Link className="link" to="/">start adding some</Link>!
     </Typography>
   );
 
@@ -34,17 +21,12 @@ const Cart = ({ cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart }) => {
 
   const renderCart = () => (
     <div>
-      {/* <Grid container spacing={3}> */}
         {cart.map((lineItem) => (
-          // <Grid item xs={12} sm={4} key={lineItem.id}>
             <CartItem item={lineItem} onUpdateCartQty={onUpdateCartQty} onRemoveFromCart={onRemoveFromCart} />
-          // </Grid>
         ))}
-      {/* </Grid> */}
-      <div className="cardDetails">
-        {/* <Typography variant="h4">Subtotal: {cart.subtotal.formatted_with_symbol}</Typography> */}
+      <div>
         <div>
-          <Button className="emptyButton" size="large" type="button" variant="contained" color="secondary" onClick={handleEmptyCart} sx= {{mb: "10px"}} fullWidth>Empty cart</Button>
+          <Button size="large" type="button" variant="contained" color="secondary" onClick={handleEmptyCart} fullWidth>Empty cart</Button>
         </div>
       </div>
     </div>
@@ -52,21 +34,25 @@ const Cart = ({ cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart }) => {
 
   return (
     <div>
-      <IconButton component={Link} to="/" size="small" color="inherit" >
+      <Typography sx={{ textAlign: "center", fontSize: "12px", fontWeight: "200", py: "16px" }}>
+        Free Shipping On Orders Over 900 SEK. Easy 60-Day Returns.
+      </Typography>
+
+      <IconButton component={Link} to="/" size="small" color="inherit" sx={{p: "0 0 8px 0"}}>
         <ArrowBack />
-        <Typography sx={{ fontSize: "18px", fontWeight: "200", py: "20px" }}>Continue Shopping</Typography>
+        <Typography sx={{ fontSize: "18px", fontWeight: "200" }}>Continue Shopping</Typography>
       </IconButton>
 
-      <Container sx={{ border: 1 }}>
+      <Container sx={{ border: 1, padding: "0 8px 8px 8px" }}>
         <Typography variant="h3" sx={{ borderBottom: 1, fontSize: "22px", fontWeight: "200", py: "20px", mb: "10px" }} >Your Cart</Typography>
         { !cart.length ? renderEmptyCart() : renderCart() }
       </Container>
 
-      <Container sx={{ border: 1, mt: "20px" }}>
+      <Container sx={{ border: 1, mt: "16px", padding: "0 8px 8px 8px" }}>
         <Typography variant="h3" sx={{ borderBottom: 1, fontSize: "22px", fontWeight: "200", py: "20px" }}>Order Summery</Typography>
-        <Typography variant="h3" sx={{ fontSize: "22px", fontWeight: "200", pt: "10px" }}>Subtotal</Typography>
-        <Typography variant="h3" sx={{ fontSize: "22px", fontWeight: "200", pt: "10px" }}>Shipping</Typography>
-        <Typography variant="h3" sx={{ fontSize: "22px", fontWeight: "200", py: "10px" }}>Total</Typography>
+        <Typography variant="h3" sx={{ fontSize: "22px", fontWeight: "200", pt: "12px" }}>Subtotal</Typography>
+        <Typography variant="h3" sx={{ fontSize: "22px", fontWeight: "200", pt: "12px" }}>Shipping</Typography>
+        <Typography variant="h3" sx={{ fontSize: "22px", fontWeight: "200", py: "12px" }}>Total</Typography>
         <Button className="checkoutButton" component={Link} to="/checkout" size="large" type="button" variant="contained" color="primary" sx= {{mb: "10px"}} fullWidth>Checkout</Button>
       </Container>
     </div>
