@@ -91,15 +91,20 @@ const App = () => {
   }
 
   const handleUpdateCartQty = async (lineItemId, quantity) => {
-    // const response = await commerce.cart.update(lineItemId, { quantity });
-    console.log("Update Quantity")
-    // setCart(response.cart);
+    let newCart = cart;
+    const index = newCart.findIndex((item => item.id === lineItemId));
+
+    newCart[index].quantity = quantity;
+
+    setCart(newCart);
+    updateCartQuantity(newCart);
   };
 
   const handleRemoveFromCart = async (lineItemId) => {
-    // const response = await commerce.cart.remove(lineItemId);
-    console.log("remove from cart")
-    // setCart([]);
+    let newCart = cart.filter(x => x.id !== lineItemId)
+
+    setCart(newCart);
+    updateCartQuantity(newCart);
   };
 
   const handleEmptyCart = async () => {

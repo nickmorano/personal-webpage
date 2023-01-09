@@ -3,21 +3,18 @@ import { Typography, Button, Card, CardActions, CardContent, CardMedia, Grid, Se
 
 const CartItem = ({ item, onUpdateCartQty, onRemoveFromCart }) => {
 
-  const handleUpdateCartQty = (lineItemId, newQuantity) => onUpdateCartQty(lineItemId, newQuantity);
+  const handleUpdateCartQty = (event, lineItemId) => onUpdateCartQty(lineItemId, event.target.value);
+
 
   const handleRemoveFromCart = (lineItemId) => onRemoveFromCart(lineItemId);
 
-  const availableQuantitiesArray = (max = 30) => {
-    let quantityArray = [];
-    for(let i = 1; i <= max; i++) {
-      quantityArray.push(i)
-    }
-    return [1, 2];
+  const cartQuantities = () => {
+
   }
 
   return (
-    <Card className="cart-item" elevation={0} square={true} fullWidth>
-      <Grid container fullWidth>
+    <Card className="cart-item" elevation={0} square={true} sx={{borderBottom: "dotted", padding: "8px"}}>
+      <Grid container >
 
         <Grid item xs={3}>
           <CardMedia component="img" image={require('../../../../src/assets/product_images/' + item.image_location)} title={item.name} />
@@ -33,19 +30,24 @@ const CartItem = ({ item, onUpdateCartQty, onRemoveFromCart }) => {
         <Grid item textAlign="center" xs={3}>
           <InputLabel id="demo-simple-select-label">Quantity</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
             value={item.quantity}
-            label="Age"
-          >
-            {[...Array(50).keys()].map(x => <MenuItem value={x}>{x}</MenuItem>)}
+            onChange={(e) => handleUpdateCartQty(e, item.id)}
+            label="Quantity"
+            >
+            {[...Array(25).keys()].slice(1).map(x => <MenuItem key={x} value={x}>{x}</MenuItem>)}
           </Select>
         </Grid>
 
         <Grid item xs={3} textAlign="right" sx={{ justifyContent: "right" }}>
-          <Stack textAlign="right" sx={{ justifyContent: "right" }}>
-            <Typography variant="h7" sx={{fontSize: "16px"}} >{item.price} SEK</Typography>
-            <Button sx={{m: 0, p: 0, textDecoration: "underline", fontSize: "14px"}} variant="text" color="secondary" onClick={() => handleRemoveFromCart(item.id)}>Remove</Button>
+          <Stack alignItems="flex-end">
+            <Typography variant="h7" sx={{fontSize: "16px"}} >{item.price * item.quantity} SEK</Typography>
+            <Button
+              sx={{m: 0, p: 0, textDecoration: "underline", fontSize: "14px"}}
+              variant="text"
+              color="secondary"
+              onClick={() => handleRemoveFromCart(item.id)}>
+                Remove
+            </Button>
           </Stack>
         </Grid>
 

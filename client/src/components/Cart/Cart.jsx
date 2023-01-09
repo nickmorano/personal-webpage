@@ -1,4 +1,4 @@
-import { Container, Typography, Button, IconButton, Grid } from '@mui/material';
+import { Container, Typography, Button, IconButton, Stack} from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { css } from '@emotion/react';
@@ -9,8 +9,6 @@ import { Navbar } from '../../components';
 const Cart = ({ cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart }) => {
   const handleEmptyCart = () => onEmptyCart();
 
-  console.log(cart)
-
   const renderEmptyCart = () => (
     <Typography variant="subtitle1">
       You have no items in your shopping cart, <Link className="link" to="/">start adding some</Link>!
@@ -19,10 +17,15 @@ const Cart = ({ cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart }) => {
 
   if (!cart) return 'Loading';
 
+  const itemTotal = () => {
+
+    return cart.reduce((acc, item) => item.price * item.quantity + acc, 0);
+  }
+
   const renderCart = () => (
     <div>
         {cart.map((lineItem) => (
-            <CartItem item={lineItem} onUpdateCartQty={onUpdateCartQty} onRemoveFromCart={onRemoveFromCart} />
+            <CartItem key={lineItem.name} item={lineItem} onUpdateCartQty={onUpdateCartQty} onRemoveFromCart={onRemoveFromCart} />
         ))}
       <div>
         <div>
@@ -50,9 +53,18 @@ const Cart = ({ cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart }) => {
 
       <Container sx={{ border: 1, mt: "16px", padding: "0 8px 8px 8px" }}>
         <Typography variant="h3" sx={{ borderBottom: 1, fontSize: "22px", fontWeight: "200", py: "20px" }}>Order Summery</Typography>
-        <Typography variant="h3" sx={{ fontSize: "22px", fontWeight: "200", pt: "12px" }}>Subtotal</Typography>
-        <Typography variant="h3" sx={{ fontSize: "22px", fontWeight: "200", pt: "12px" }}>Shipping</Typography>
-        <Typography variant="h3" sx={{ fontSize: "22px", fontWeight: "200", py: "12px" }}>Total</Typography>
+        <Stack direction="row" justifyContent="space-between">
+          <div>
+            <Typography variant="h3" sx={{ fontSize: "22px", fontWeight: "200", pt: "12px" }}>Subtotal</Typography>
+            <Typography variant="h3" sx={{ fontSize: "22px", fontWeight: "200", pt: "12px" }}>Shipping</Typography>
+            <Typography variant="h3" sx={{ fontSize: "22px", fontWeight: "200", py: "12px" }}>Total</Typography>
+          </div>
+          <Stack alignItems="flex-end">
+            <Typography variant="h3" sx={{ fontSize: "22px", fontWeight: "200", pt: "12px" }}>{itemTotal()} SEK</Typography>
+            <Typography variant="h3" sx={{ fontSize: "22px", fontWeight: "200", pt: "12px" }}>49 SEK</Typography>
+            <Typography variant="h3" sx={{ fontSize: "22px", fontWeight: "200", py: "12px" }}>{itemTotal() + 49} SEK</Typography>
+          </Stack>
+        </Stack>
         <Button className="checkoutButton" component={Link} to="/checkout" size="large" type="button" variant="contained" color="primary" sx= {{mb: "10px"}} fullWidth>Checkout</Button>
       </Container>
     </div>
