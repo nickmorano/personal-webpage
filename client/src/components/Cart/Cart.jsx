@@ -18,20 +18,21 @@ const Cart = ({ cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart }) => {
   if (!cart) return 'Loading';
 
   const itemTotal = () => {
-
     return cart.reduce((acc, item) => item.price * item.quantity + acc, 0);
+  }
+
+  const lastItem = (lineItemId) => {
+    return cart.at(-1).id === lineItemId;
   }
 
   const renderCart = () => (
     <div>
         {cart.map((lineItem) => (
-            <CartItem key={lineItem.name} item={lineItem} onUpdateCartQty={onUpdateCartQty} onRemoveFromCart={onRemoveFromCart} />
+            <CartItem key={lineItem.name} item={lineItem} lastItem={lastItem} onUpdateCartQty={onUpdateCartQty} onRemoveFromCart={onRemoveFromCart} />
         ))}
-      <div>
-        <div>
-          <Button size="large" type="button" variant="contained" color="secondary" onClick={handleEmptyCart} fullWidth>Empty cart</Button>
-        </div>
-      </div>
+      {/* <div>
+        <Button size="large" type="button" variant="outlined" color="secondary" onClick={handleEmptyCart} >Empty cart</Button>
+      </div> */}
     </div>
   );
 
@@ -47,7 +48,7 @@ const Cart = ({ cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart }) => {
       </IconButton>
 
       <Container sx={{ border: 1, padding: "0 8px 8px 8px" }}>
-        <Typography variant="h3" sx={{ borderBottom: 1, fontSize: "22px", fontWeight: "200", py: "20px", mb: "10px" }} >Your Cart</Typography>
+        <Typography variant="h3" sx={{ borderBottom: 1, fontSize: "22px", fontWeight: "200", py: "20px" }} >Your Cart</Typography>
         { !cart.length ? renderEmptyCart() : renderCart() }
       </Container>
 

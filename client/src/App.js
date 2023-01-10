@@ -3,7 +3,7 @@ import { createTheme, ThemeProvider, CssBaseline } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
-import { Products, Navbar, Cart } from './components';
+import { Products, Navbar, Cart, Checkout } from './components';
 import { css } from '@emotion/react';
 import { Calculate } from '@mui/icons-material';
 
@@ -162,9 +162,7 @@ const App = () => {
           <Routes>
             <Route path="/"  element={<Products cart={cart} products={products} onAddToCart={handleAddToCart} handleUpdateCartQty />} />
             <Route path="/cart" element={<Cart cart={cart} onUpdateCartQty={handleUpdateCartQty} onRemoveFromCart={handleRemoveFromCart} onEmptyCart={handleEmptyCart} />} />
-            {/* <Route path="/checkout" exact>
-              <Checkout cart={cart} order={order} onCaptureCheckout={handleCaptureCheckout} error={errorMessage} />
-            </Route> */}
+            <Route path="/checkout" element={<Checkout />} />
           </Routes>
         </main>
       </Router>

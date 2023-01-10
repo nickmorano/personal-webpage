@@ -1,9 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import Grid from '@mui/material/Grid';
 import Product from './Product/Product';
-import Navbar from '../Navbar/Navbar';
-import { css } from '@emotion/react';
-import { useState } from 'react'
 
 const Products = ({ cart, products, onAddToCart }) => {
   if (!products.length) return <p>Loading...</p>;

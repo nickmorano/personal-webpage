@@ -1,19 +1,13 @@
 import { Typography, Button, Card, CardActions, CardContent, CardMedia, Grid, Select, Stack, InputLabel, MenuItem } from '@mui/material';
 
 
-const CartItem = ({ item, onUpdateCartQty, onRemoveFromCart }) => {
+const CartItem = ({ item, onUpdateCartQty, onRemoveFromCart, lastItem }) => {
 
   const handleUpdateCartQty = (event, lineItemId) => onUpdateCartQty(lineItemId, event.target.value);
-
-
   const handleRemoveFromCart = (lineItemId) => onRemoveFromCart(lineItemId);
 
-  const cartQuantities = () => {
-
-  }
-
   return (
-    <Card className="cart-item" elevation={0} square={true} sx={{borderBottom: "dotted", padding: "8px"}}>
+    <Card className="cart-item" elevation={0} square={true} sx={{borderBottom: lastItem(item.id) ? "" : "3px dotted gray", padding: "16px"}}>
       <Grid container >
 
         <Grid item xs={3}>
@@ -40,7 +34,7 @@ const CartItem = ({ item, onUpdateCartQty, onRemoveFromCart }) => {
 
         <Grid item xs={3} textAlign="right" sx={{ justifyContent: "right" }}>
           <Stack alignItems="flex-end">
-            <Typography variant="h7" sx={{fontSize: "16px"}} >{item.price * item.quantity} SEK</Typography>
+            <Typography variant="h7" sx={{fontSize: "16px"}} >{item.price} SEK</Typography>
             <Button
               sx={{m: 0, p: 0, textDecoration: "underline", fontSize: "14px"}}
               variant="text"
