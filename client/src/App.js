@@ -3,7 +3,7 @@ import { createTheme, ThemeProvider, CssBaseline } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
-import { Products, Navbar, Cart, Checkout } from './components';
+import { Products, AddProduct, Navbar, Cart, Checkout } from './components';
 import { css } from '@emotion/react';
 import { Calculate } from '@mui/icons-material';
 
@@ -112,24 +112,6 @@ const App = () => {
     setCartQuantity(null);
   };
 
-  // const refreshCart = async () => {
-  //   const newCart = await commerce.cart.refresh();
-
-  //   setCart(newCart);
-  // };
-
-  // const handleCaptureCheckout = async (checkoutTokenId, newOrder) => {
-  //   try {
-  //     const incomingOrder = await commerce.checkout.capture(checkoutTokenId, newOrder);
-
-  //     setOrder(incomingOrder);
-
-  //     refreshCart();
-  //   } catch (error) {
-  //     setErrorMessage(error.data.error.message);
-  //   }
-  // };
-
   useEffect(() => {
     fetchProducts();
 
@@ -163,6 +145,7 @@ const App = () => {
             <Route path="/"  element={<Products cart={cart} products={products} onAddToCart={handleAddToCart} handleUpdateCartQty />} />
             <Route path="/cart" element={<Cart cart={cart} onUpdateCartQty={handleUpdateCartQty} onRemoveFromCart={handleRemoveFromCart} onEmptyCart={handleEmptyCart} />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/add" element={<AddProduct />} />
           </Routes>
         </main>
       </Router>
