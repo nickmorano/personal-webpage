@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/static/js/main.82962f87.js",
+    "main.js": "/static/js/main.6c26154a.js",
     "static/media/mouse.png": "/static/media/mouse.a558422253adaf05d1d2.png",
     "static/media/jerkey.png": "/static/media/jerkey.7eb6169d12f8279afaeb.png",
     "static/media/jerkey.jpeg": "/static/media/jerkey.293d07c415abc32044e3.jpeg",
@@ -12,9 +12,9 @@
     "static/media/rare-logo.png": "/static/media/rare-logo.47f9e6b6074597a1bf27.png",
     "static/media/keyboard.png": "/static/media/keyboard.4d1265233dd1c0cf1a47.png",
     "index.html": "/index.html",
-    "main.82962f87.js.map": "/static/js/main.82962f87.js.map"
+    "main.6c26154a.js.map": "/static/js/main.6c26154a.js.map"
   },
   "entrypoints": [
-    "static/js/main.82962f87.js"
+    "static/js/main.6c26154a.js"
   ]
 }

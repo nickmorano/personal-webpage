@@ -48,7 +48,7 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const fetchProducts = async () => {
-    fetch('http://localhost:5002/api/products')
+    fetch(`${process.env.REACT_APP_BACKEND_ROUTE}/api/products`)
       .then(res => {
         if(!res.ok) {
           throw Error('could not fetch the data for that resource')
