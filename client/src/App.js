@@ -118,7 +118,7 @@ const App = () => {
     const localStorage = window.localStorage.getItem('CART');
     const storedCart = JSON.parse(localStorage)?.carty
 
-    if(storedCart.length > 0) {
+    if(storedCart && storedCart.length > 0) {
       setCart(storedCart)
       updateCartQuantity(storedCart);
     }
